@@ -11,7 +11,7 @@ rm -rf ~/git/DrQA/data/$1/ || true
 mkdir -p ~/git/DrQA/data/$1/extract/
 
 echo "download db dump"
-wget -O ~/git/DrQA/data/$1/ $2
+wget -P ~/git/DrQA/data/$1/ $2
 
 #https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles-multistream.xml.bz2 Current revisions only, no talk or user pages; this is probably what you want, and is approximately 14 GB compressed (expands to over 58 GB when decompressed).
 #https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract.xml.gz – page abstracts #page abstracts
