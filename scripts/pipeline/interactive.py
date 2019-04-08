@@ -76,11 +76,11 @@ DrQA = pipeline.DrQA(
 # ------------------------------------------------------------------------------
 
 
-def listenQuestion(file=)
-    while True:
-        if not tf.gfile.Exists(FLAGS.predict_file):
-            time.sleep(1)
-            continue
+# def listenQuestion(file)
+#     while True:
+        # if not tf.gfile.Exists(FLAGS.predict_file):
+        #     time.sleep(1)
+        #     continue
 
 
 
