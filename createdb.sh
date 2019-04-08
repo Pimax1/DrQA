@@ -14,12 +14,13 @@ mkdir -p ${WKDIR}extract
 echo "download db dump"
 wget -P ${WKDIR} $2
 
+cd ${WKDIR}
 for z in ${WKDIR}*.tar.xz; do tar -xf "$z" || true; done
 for z in ${WKDIR}*.rar; do unrar e -r "$z" || true; done
 for z in ${WKDIR}*.7z; do 7z e "$z"|| true; done
 for z in ${WKDIR}*.bz2; do bzip2 -d  "$z"|| true; done
 for z in ${WKDIR}*.zip; do unzip -d  "$z"|| true; done
-
+cd ~/git/DrQA/
 #https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles-multistream.xml.bz2 Current revisions only, no talk or user pages; this is probably what you want, and is approximately 14 GB compressed (expands to over 58 GB when decompressed).
 #https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract.xml.gz – page abstracts #page abstracts
 #https://s3.amazonaws.com/wikia_xml_dumps/w/wa/warframe_pages_current.xml.7z   https://warframe.fandom.com/wiki/Special:Statistics
