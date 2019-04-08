@@ -27,7 +27,7 @@ cd ~/git/DrQA/
 #https://s3.amazonaws.com/wikia_xml_dumps/s/sh/shadowsdietwice_pages_current.xml.7z   https://sekiro-shadows-die-twice.fandom.com/wiki/Special:Statistics
 
 echo "wikiextractor"
-python3  WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 3 --filter_disambig_pages --processes 18 ${WKDIR}*.xml
+python3  WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 15 --filter_disambig_pages --processes 18 ${WKDIR}*.xml
 
 echo "building db"
 python scripts/retriever/build_db.py ${WKDIR}extract/ ${WKDIR}docs.db --num-workers 18
