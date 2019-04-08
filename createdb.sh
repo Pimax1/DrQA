@@ -8,7 +8,7 @@ cd ~/git/DrQA/
 export CLASSPATH=~/git/DrQA/data/corenlp/*
 
 rm -rf ~/git/DrQA/data/$1/ || true
-mkdir ~/git/DrQA/data/$1/extract/
+mkdir -p ~/git/DrQA/data/$1/extract/
 
 echo "download db dump"
 wget -O ~/git/DrQA/data/$1/ $2
