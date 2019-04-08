@@ -1,5 +1,6 @@
 #!/bin/bash
 #make new db script
+#make sure the file is executable
 
 set -e
 
