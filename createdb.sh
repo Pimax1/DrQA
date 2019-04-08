@@ -30,7 +30,7 @@ echo "wikiextractor"
 python3  WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 3 --filter_disambig_pages --processes 18 ${WKDIR}*.xml
 
 echo "building db"
-python build_db.py ${WKDIR}extract/ ${WKDIR}docs.db
+python scripts/retriever/build_db.py ${WKDIR}extract/ ${WKDIR}docs.db --num-workers 18
 
 echo "building TF"
 python3 scripts/retriever/build_tfidf.py ${WKDIR}docs.db ${WKDIR} --num-workers 18 --ngram 2 --hash-size 16777216 --tokenizer 'simple'
