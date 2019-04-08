@@ -40,6 +40,6 @@ echo "exporting to storage"
 gsutil cp ${WKDIR}docs.db gs://pimax/drqa/data/$1/docs.db
 gsutil cp ${WKDIR}docs-tfidf-ngram=2-hash=16777216-tokenizer=corenlp.npz gs://pimax/drqa/data/$1/docs-tfidf-ngram=2-hash=16777216-tokenizer=corenlp.npz
 
-rm - ${WKDIR}extract || true
+rm -rf ${WKDIR}extract || true
 
 echo "done"
