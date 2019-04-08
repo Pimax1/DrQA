@@ -6,7 +6,7 @@ set -e
 cd ~/git/DrQA/
 export CLASSPATH=~/git/DrQA/data/corenlp/*
 
-rm -r ~/git/DrQA/data/$1/*
+rm -r ~/git/DrQA/data/$1/
 mkdir ~/git/DrQA/data/$1/extract/
 
 echo "download db dump"
