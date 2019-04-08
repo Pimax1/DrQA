@@ -12,7 +12,7 @@ rm -rf ${WKDIR} || true
 mkdir -p ${WKDIR}extract
 
 echo "download db dump"
-wget -P ${WKDIR} $2
+wget --timestamping -P --directory-prefix=${WKDIR} $2
 
 cd ${WKDIR}
 for z in ${WKDIR}*.tar.xz; do tar -xf "$z" || true; done
