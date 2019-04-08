@@ -18,13 +18,13 @@ fi
 DOWNLOAD_PATH_TAR="$DOWNLOAD_PATH.tar.gz"
 
 # Download main hosted data
-wget -O "$DOWNLOAD_PATH_TAR" "https://dl.fbaipublicfiles.com/drqa/data.tar.gz"
+#wget -O "$DOWNLOAD_PATH_TAR" "https://dl.fbaipublicfiles.com/drqa/data.tar.gz"
 
 # Untar
-tar -xvf "$DOWNLOAD_PATH_TAR"
+#tar -xvf "$DOWNLOAD_PATH_TAR"
 
 # Remove tar ball
-rm "$DOWNLOAD_PATH_TAR"
+#rm "$DOWNLOAD_PATH_TAR"
 
 # Get externally hosted data
 DATASET_PATH="$DOWNLOAD_PATH/datasets"
