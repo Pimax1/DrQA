@@ -76,6 +76,14 @@ DrQA = pipeline.DrQA(
 # ------------------------------------------------------------------------------
 
 
+def listenQuestion(file=)
+    while True:
+        if not tf.gfile.Exists(FLAGS.predict_file):
+            time.sleep(1)
+            continue
+
+
+
 def process(question, candidates=None, top_n=1, n_docs=5):
     predictions = DrQA.process(
         question, candidates, top_n, n_docs, return_context=True

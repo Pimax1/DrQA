@@ -1,4 +1,7 @@
-###############make new db scripts###############
+#!/bin/bash
+#make new db script
+
+set -e
 
 cd ~/git/DrQA/
 export CLASSPATH=~/git/DrQA/data/corenlp/*
