@@ -14,11 +14,13 @@ mkdir -p ${WKDIR}extract
 echo "download db dump"
 wget -P ${WKDIR} $2
 
-for z in ${WKDIR}*.tar.xz; do tar -xf "$z"; done
-for z in ${WKDIR}*.rar; do unrar e -r "$"; done
-for z in ${WKDIR}*.7z; do 7z e "$z"; done
-for z in ${WKDIR}*.bz2; do bzip2 -d  "$z"; done
-for z in ${WKDIR}*.zip; do unzip -d  "$z"; done
+cd ${WKDIR}
+for z in *.tar.xz; do tar -xf "$z"; done
+for z in *.rar; do unrar e -r "$z"; done
+for z in *.7z; do 7z e "$z"; done
+for z in *.bz2; do bzip2 -d  "$z"; done
+for z in *.zip; do unzip -d  "$z"; done
+cd ~/git/DrQA/
 
 #https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles-multistream.xml.bz2 Current revisions only, no talk or user pages; this is probably what you want, and is approximately 14 GB compressed (expands to over 58 GB when decompressed).
 #https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-abstract.xml.gz – page abstracts #page abstracts
