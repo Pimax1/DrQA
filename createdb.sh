@@ -33,10 +33,10 @@ echo "building db"
 python scripts/retriever/build_db.py ${WKDIR}extract/ ${WKDIR}docs.db --num-workers 18
 
 echo "building TF"
-python3 scripts/retriever/build_tfidf.py ${WKDIR}docs.db ${WKDIR} --num-workers 18 --ngram 2 --hash-size 16777216 --tokenizer 'simple'
+python3 scripts/retriever/build_tfidf.py ${WKDIR}docs.db ${WKDIR} --num-workers 18 --ngram 2 --hash-size 16777216 --tokenizer 'corenlp'
 
 echo "exporting to storage"
 gsutil cp ${WKDIR}docs.db gs://pimax/drqa/data/$1/docs.db
-gsutil cp ${WKDIR}docs-tfidf-ngram=2-hash=16777216-tokenizer=simple.npz gs://pimax/drqa/data/$1/docs-tfidf-ngram=2-hash=16777216-tokenizer=simple.npz
+gsutil cp ${WKDIR}docs-tfidf-ngram=2-hash=16777216-tokenizer=corenlp.npz gs://pimax/drqa/data/$1/docs-tfidf-ngram=2-hash=16777216-tokenizer=corenlp.npz
 
 echo "done"

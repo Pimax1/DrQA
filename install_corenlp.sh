@@ -19,6 +19,19 @@ unzip "stanford-corenlp-full-2017-06-09.zip"
 rm "stanford-corenlp-full-2017-06-09.zip"
 popd
 
+
+# Append to bashrc, instructions
+while read -p "Add to ~/.bashrc CLASSPATH (recommended)? [yes/no]: " choice; do
+    case "$choice" in
+        yes )
+            echo "export CLASSPATH=\$CLASSPATH:$DOWNLOAD_PATH/*" >> ~/.bashrc;
+            break ;;
+        no )
+            break ;;
+        * ) echo "Please answer yes or no." ;;
+    esac
+done
+
 # Put jars in DOWNLOAD_PATH
 mkdir -p "$DOWNLOAD_PATH"
 mv "/tmp/stanford-corenlp-full-2017-06-09/"*".jar" "$DOWNLOAD_PATH/"
