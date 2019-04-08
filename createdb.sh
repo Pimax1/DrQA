@@ -12,7 +12,7 @@ export WKDIR=~/git/DrQA/data/$1/
 mkdir -p ${WKDIR}extract
 
 echo "download db dump"
-wget --timestamping -P --directory-prefix=${WKDIR} $2
+wget --timestamping --directory-prefix=${WKDIR} $2
 
 cd ${WKDIR}
 for z in ${WKDIR}*.tar.xz; do tar -xf "$z" || true; done
@@ -40,6 +40,6 @@ echo "exporting to storage"
 gsutil cp ${WKDIR}docs.db gs://pimax/drqa/data/$1/docs.db
 gsutil cp ${WKDIR}docs-tfidf-ngram=2-hash=16777216-tokenizer=corenlp.npz gs://pimax/drqa/data/$1/docs-tfidf-ngram=2-hash=16777216-tokenizer=corenlp.npz
 
-rm -rf ${WKDIR}extract || true
+rm - ${WKDIR}extract || true
 
 echo "done"
