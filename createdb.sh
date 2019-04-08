@@ -17,6 +17,7 @@ wget -P ${WKDIR} $2
 cd ${WKDIR}
 for z in ${WKDIR}*.tar.xz; do tar -xf "$z" || true; done
 for z in ${WKDIR}*.rar; do unrar e -r "$z" || true; done
+for z in ${WKDIR}*.rar; do unrar e -r "$z" || true; done
 for z in ${WKDIR}*.7z; do 7z e "$z"|| true; done
 for z in ${WKDIR}*.bz2; do bzip2 -d  "$z"|| true; done
 for z in ${WKDIR}*.zip; do unzip -d  "$z"|| true; done
@@ -38,5 +39,7 @@ python3 scripts/retriever/build_tfidf.py ${WKDIR}docs.db ${WKDIR} --num-workers 
 echo "exporting to storage"
 gsutil cp ${WKDIR}docs.db gs://pimax/drqa/data/$1/docs.db
 gsutil cp ${WKDIR}docs-tfidf-ngram=2-hash=16777216-tokenizer=corenlp.npz gs://pimax/drqa/data/$1/docs-tfidf-ngram=2-hash=16777216-tokenizer=corenlp.npz
+
+rm -rf ${WKDIR}extract || true
 
 echo "done"
