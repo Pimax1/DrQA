@@ -10,9 +10,9 @@ def main():
     parser = argparse.ArgumentParser(prog=os.path.basename(sys.argv[0]),
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
                                      description=__doc__)
-    parser.add_argument("input",
+    parser.add_argument("input",  default=r"d:\onedrive\dev\ubuntu\git\DrQA\data\wikiabstract\*.xml",
                         help="XML wiki dump file")
-    parser.add_argument("ouptut", default="text",
+    parser.add_argument("ouptut", default=r"d:\onedrive\dev\git\DrQA\data\wikiabstract\extract\abstract.data",
                         help="directory for extracted files (or '-' for dumping to stdout)")
     args = parser.parse_args()
 

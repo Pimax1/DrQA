@@ -31,9 +31,9 @@ if [ "$1" != "wikiabstract" ]; then
     echo "wikiextractor"
     python WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 15 --filter_disambig_pages --processes 18 ${WKDIR}*.xml
 else
+    echo "abstractor"
     python3 abstractor.py  ${WKDIR}*.xml ${WKDIR}extract/
 fi
-
 
 python abstractor input=  output=~/git/DrQA/data/$1/extract/
 
