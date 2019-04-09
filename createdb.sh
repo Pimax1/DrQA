@@ -32,10 +32,8 @@ if [ "$1" != "wikiabstract" ]; then
     python WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 15 --filter_disambig_pages --processes 18 ${WKDIR}*.xml
 else
     echo "abstractor"
-    python3 abstractor.py  ${WKDIR}*.xml ${WKDIR}extract/
+    python3 abstractor.py  --input ${WKDIR}*.xml --output ${WKDIR}extract/
 fi
-
-python abstractor input=  output=~/git/DrQA/data/$1/extract/
 
 echo "building db"
 python scripts/retriever/build_db.py ${WKDIR}extract/ ${WKDIR}docs.db --num-workers 18

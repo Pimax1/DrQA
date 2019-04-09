@@ -5,15 +5,16 @@ import codecs
 import re
 import argparse
 import sys
+import pathlib
 
 def main():
     parser = argparse.ArgumentParser(prog=os.path.basename(sys.argv[0]),
                                      formatter_class=argparse.RawDescriptionHelpFormatter,
                                      description=__doc__)
-    parser.add_argument("input",  default=r"d:\onedrive\dev\ubuntu\git\DrQA\data\wikiabstract\*.xml",
+    parser.add_argument("--input", nargs='?', default=r'd:\onedrive\dev\ubuntu\git\DrQA\data\wikiabstract\enwiki-latest-abstract.xml',
                         help="XML wiki dump file")
-    parser.add_argument("ouptut", default=r"d:\onedrive\dev\git\DrQA\data\wikiabstract\extract\abstract.data",
-                        help="directory for extracted files (or '-' for dumping to stdout)")
+    parser.add_argument("--output", nargs='?', default=r'D:\onedrive\dev\ubuntu\git\DrQA\data\wikiabstract\extract\abstract.data',
+                        help="directory for extracted files")
     args = parser.parse_args()
 
     os.environ["PYTHONIOENCODING"] = 'utf-8'
@@ -27,10 +28,10 @@ def main():
             title = doc.find('title').text
 
             # we proceed by elimination and we let errors go through if not identified
-            if title.strip().endswith(" (disambiguation)"):
-                continue
-            if title.find('Wikipedia: ') >= 0:
-                title = title.replace('Wikipedia: ', '').strip()
+            # if title.strip().endswith(" (disambiguation)"):
+            #     continue
+            if title.find("Wikipedia: ") >= 0:
+                title = title.replace("Wikipedia: ", "").replace(" (disambiguation)", "").strip()
                 if len(title) <= 1:
                     continue
             else:
@@ -46,17 +47,47 @@ def main():
                 continue
             if abstract.endswith(" to:"):
                 continue
-            abstract = re.sub("((http(s)?(\:\/\/))+(www\.)?([\w\-\.\/])*(\.[a-zA-Z]{2,3}\/?))[^\s\b\n|]*[^.,;:\?\!\@\^\$ -]", "", abstract)
-            abstract = abstract.replace("  ", "").replace(",  ,", ", ").replace(", ,", ", ")
-            abstract = abstract.replace("  ", "").replace("( ", "(").replace("( ", "(").replace(" )", ")").replace(" )", ")")
+            abstract = re.sub(r"((http(s)?(\:\/\/))+(www\.)?([\w\-\.\/])*(\.[a-zA-Z]{2,3}\/?))[^\s\b\n|]*[^.,;:\?\!\@\^\$ -]", "", abstract)
+
+            abstract = abstract.replace(")", ") ")
+
+            abstract = abstract.replace("  ", " ").replace(",  ,", ", ").replace(", ,", ", ")
+            abstract = abstract.replace("; ,", ";").replace(";,", ";").replace(": ,", ":").replace(":,", ":")
+            abstract = abstract.replace("  ", " ").replace("( ", "(").replace("( ", "(").replace(" )", ")").replace(" )", ")")
             abstract = abstract.replace("(;", "(").replace(";)", ")").replace("(,", "(").replace(",)", ")")
             abstract = abstract.replace("( )", "").replace("()", "")
             abstract = abstract.replace("(;", "(").replace(";)", ")").replace("(,", "(").replace(",)", ")")
             abstract = abstract.replace("(.", "(")
+            abstract = abstract.replace(": ,", ": ")
             abstract = abstract.replace("}}}}", "").replace("}}", "")
             abstract = abstract.replace("(surname)", "")
+            abstract = abstract.replace("  ", " ")
+
+            abstract = abstract.replace("  ", " ").replace(",  ,", ", ").replace(", ,", ", ")
+            abstract = abstract.replace("; ,", ";").replace(";,", ";").replace(": ,", ":").replace(":,", ":")
+            abstract = abstract.replace("  ", " ").replace("( ", "(").replace("( ", "(").replace(" )", ")").replace(" )", ")")
+            abstract = abstract.replace("(;", "(").replace(";)", ")").replace("(,", "(").replace(",)", ")")
+            abstract = abstract.replace("( )", "").replace("()", "")
+            abstract = abstract.replace("(;", "(").replace(";)", ")").replace("(,", "(").replace(",)", ")")
+            abstract = abstract.replace("(.", "(")
+            abstract = abstract.replace(": ,", ": ")
+            abstract = abstract.replace("}}}}", "").replace("}}", "")
+            abstract = abstract.replace("(surname)", "")
+            abstract = abstract.replace("  ", " ")
+
+            abstract = abstract.replace(") .", ").").replace("( ", "(").replace(" ,", "")
+
+            abstract = abstract.replace("(from , ", "(").replace(", from)", ")").replace("(from)", "")
+            abstract = abstract.replace("  ", " ").replace("  ", " ").replace(".,", ".")
+
+            abstract = abstract.replace("[\\", " \\").replace("[s", " s")
+            abstract = abstract.replace("[[", "").replace("[", "").replace("]", "")
+            if abstract.startswith(","):
+                abstract = abstract[1:]
             if abstract.endswith("("):
-                abstract = abstract.replace("(", "")
+                abstract = abstract[:-1]
+            if abstract.endswith(" See http://www."):
+                abstract = abstract.replace(" See http://www.", "")
             if len(abstract) <= 20 or len(title) > len(abstract):
                 continue
             text = title + ": " + abstract
