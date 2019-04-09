@@ -27,14 +27,21 @@ cd ~/git/DrQA/
 #https://s3.amazonaws.com/wikia_xml_dumps/w/wa/warframe_pages_current.xml.7z   https://warframe.fandom.com/wiki/Special:Statistics
 #https://s3.amazonaws.com/wikia_xml_dumps/s/sh/shadowsdietwice_pages_current.xml.7z   https://sekiro-shadows-die-twice.fandom.com/wiki/Special:Statistics
 
-echo "wikiextractor"
-python3  WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 15 --filter_disambig_pages --processes 18 ${WKDIR}*.xml
+if [ "$1" != "wikiabstract" ]; then
+    echo "wikiextractor"
+    python WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 15 --filter_disambig_pages --processes 18 ${WKDIR}*.xml
+else
+    python3 abstractor.py  output=${WKDIR}extract/ input=${WKDIR}*.xml
+fi
+
+
+python abstractor input=  output=~/git/DrQA/data/$1/extract/
 
 echo "building db"
 python scripts/retriever/build_db.py ${WKDIR}extract/ ${WKDIR}docs.db --num-workers 18
 
 echo "building TF"
-python3 scripts/retriever/build_tfidf.py ${WKDIR}docs.db ${WKDIR} --num-workers 18 --ngram 2 --hash-size 16777216 --tokenizer 'corenlp'
+python scripts/retriever/build_tfidf.py ${WKDIR}docs.db ${WKDIR} --num-workers 18 --ngram 2 --hash-size 16777216 --tokenizer 'corenlp'
 
 echo "exporting to storage"
 gsutil cp ${WKDIR}docs.db gs://pimax/drqa/data/$1/docs.db
