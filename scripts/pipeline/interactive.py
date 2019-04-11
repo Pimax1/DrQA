@@ -88,8 +88,8 @@ DrQA = pipeline.DrQA(
 def listenQuestions(wikiname, top_n=1, n_docs=5):
     gcs = storage.Client()
     bucket = gcs.get_bucket('pimax')
-    question_file = r'drqa/data/' + wikiname+"/question.json"
-    prediction_file = r'drqa/data/' + wikiname+"/predictions.json"
+    question_file = r'drqa/data/' + wikiname + "/question.json"
+    prediction_file = r'drqa/data/' + wikiname + "/predictions.json"
     while True:
         if not storage.Blob(bucket=bucket, name=question_file).exists(gcs):
             time.sleep(1)
@@ -102,13 +102,16 @@ def listenQuestions(wikiname, top_n=1, n_docs=5):
         span_score = []
         doc_score = []
         doc_id = []
+        text = []
         for i, p in enumerate(predictions, 1):
             span.append(p['span'])
             doc_id.append(p['doc_id'])
             span_score.append(p['span_score'])
             doc_score.append(p['doc_score'])
+            text.append(p['context']['text'])
         bucket.blob(prediction_file).upload_from_string(json.dumps({"span": span, "span_score": span_score,
-                                                                   "doc_score": doc_score, "doc_id": doc_id}))
+                                                                   "doc_score": doc_score, "doc_id": doc_id,
+                                                                    "text": text}))
         bucket.blob(question_file).delete()
 
 
