@@ -88,8 +88,8 @@ DrQA = pipeline.DrQA(
 def listenQuestions(wikiname, top_n=1, n_docs=5):
     gcs = storage.Client()
     bucket = gcs.get_bucket('pimax')
-    question_file = r'drqa/' + wikiname+"/question.json"
-    prediction_file = r'drqa/' + wikiname+"/predictions.json"
+    question_file = r'drqa/data/' + wikiname+"/question.json"
+    prediction_file = r'drqa/data/' + wikiname+"/predictions.json"
     while True:
         if not storage.Blob(bucket=bucket, name=question_file).exists(gcs):
             time.sleep(1)
