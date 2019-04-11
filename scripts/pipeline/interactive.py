@@ -147,5 +147,6 @@ Interactive DrQA
 def usage():
     print(banner)
 
-listenQuestions( )
+
+listenQuestions(args.wikiname, args.top_n, args.n_docs)
 # code.interact(banner=banner, local=locals())
