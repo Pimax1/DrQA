@@ -2983,6 +2983,7 @@ def extract_process(opts, i, jobs_queue, output_queue):
 report_period = 10000  # progress report period
 
 
+
 def reduce_process(opts, output_queue, spool_length,
                    out_file=None, file_size=0, file_compress=True):
     """Pull finished article text, write series of files (or stdout)
