@@ -46,7 +46,7 @@ parser.add_argument('--gpu', type=int, default=-1,
                     help="Specify GPU device id to use")
 parser.add_argument('--top_n', type=int, default=1,
                     help="number of predictions to return")
-parser.add_argument('--n_docs', type=int, default=5,
+parser.add_argument('--docs_n', type=int, default=5,
                     help="number of predictions to return")
 parser.add_argument('--wikiname', type=str, default=None,
                     help="source Wiki in data folder")
@@ -148,5 +148,5 @@ def usage():
     print(banner)
 
 
-listenQuestions(args.wikiname, args.top_n, args.n_docs)
+listenQuestions(args.wikiname, args.top_n, args.docs_n)
 # code.interact(banner=banner, local=locals())
