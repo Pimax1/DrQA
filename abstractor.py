@@ -94,7 +94,7 @@ def main():
             count += 1
             if count == 158:
                 print("")
-            f.write(json.dumps({"id": count, "text": text}, ensure_ascii=False)+"\n")
+            f.write(json.dumps({"id": str(count), "text": text}, ensure_ascii=False)+"\n")
     print("done")
 
 if __name__ == '__main__':

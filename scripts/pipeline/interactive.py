@@ -11,10 +11,14 @@ import argparse
 import code
 import prettytable
 import logging
+import time
+import json
 
 from termcolor import colored
 from drqa import pipeline
 from drqa.retriever import utils
+from google.cloud import storage
+
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -40,6 +44,12 @@ parser.add_argument('--no-cuda', action='store_true',
                     help="Use CPU only")
 parser.add_argument('--gpu', type=int, default=-1,
                     help="Specify GPU device id to use")
+parser.add_argument('--top_n', type=int, default=1,
+                    help="number of predictions to return")
+parser.add_argument('--n_docs', type=int, default=5,
+                    help="number of predictions to return")
+parser.add_argument('--wikiname', type=str, default=None,
+                    help="source Wiki in data folder")
 args = parser.parse_args()
 
 args.cuda = not args.no_cuda and torch.cuda.is_available()
@@ -70,18 +80,36 @@ DrQA = pipeline.DrQA(
     tokenizer=args.tokenizer
 )
 
-
 # ------------------------------------------------------------------------------
 # Drop in to interactive mode
 # ------------------------------------------------------------------------------
 
 
-# def listenQuestion(file)
-#     while True:
-        # if not tf.gfile.Exists(FLAGS.predict_file):
-        #     time.sleep(1)
-        #     continue
-
+def listenQuestions(wikiname, top_n=1, n_docs=5):
+    gcs = storage.Client()
+    bucket = gcs.get_bucket('pimax')
+    question_file = r'drqa/' + wikiname+"/question.json"
+    prediction_file = r'drqa/' + wikiname+"/predictions.json"
+    while True:
+        if not storage.Blob(bucket=bucket, name=question_file).exists(gcs):
+            time.sleep(1)
+            continue
+        question = json.loads(bucket.get_blob(question_file).download_as_string())["question"]
+        predictions = DrQA.process(
+            question, None, top_n, n_docs, return_context=True
+        )
+        span = []
+        span_score = []
+        doc_score = []
+        doc_id = []
+        for i, p in enumerate(predictions, 1):
+            span.append(p['span'])
+            doc_id.append(p['doc_id'])
+            span_score.append(p['span_score'])
+            doc_score.append(p['doc_score'])
+        bucket.blob(prediction_file).upload_from_string(json.dumps({"span": span, "span_score": span_score,
+                                                                   "doc_score": doc_score, "doc_id": doc_id}))
+        bucket.blob(question_file).delete()
 
 
 def process(question, candidates=None, top_n=1, n_docs=5):
@@ -119,5 +147,5 @@ Interactive DrQA
 def usage():
     print(banner)
 
-
-code.interact(banner=banner, local=locals())
+listenQuestions( )
+# code.interact(banner=banner, local=locals())
