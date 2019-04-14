@@ -112,7 +112,7 @@ def listenQuestions(wikiname, top_n=1, n_docs=5):
             text.append(p['context']['text'])
         bucket.blob(prediction_file).upload_from_string(json.dumps({"span": span, "span_score": span_score,
                                                                    "doc_score": doc_score, "doc_id": doc_id,
-                                                                    "text": text, "wikiname": wikiname}))
+                                                                    "text": text, "wikiname": wikiname}, ensure_ascii=False))
         bucket.blob(question_file).delete()
 
 
