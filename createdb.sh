@@ -18,7 +18,7 @@ cd ${WKDIR}
 for z in ${WKDIR}*.tar.xz; do tar -xf "$z" || true; done
 for z in ${WKDIR}*.rar; do unrar e -r "$z" || true; done
 for z in ${WKDIR}*.7z; do 7z e "$z"|| true; done
-for z in ${WKDIR}*.bz2; do bzip2 -d  "$z"|| true; done
+#for z in ${WKDIR}*.bz2; do bzip2 -d  "$z"|| true; done
 for z in ${WKDIR}*.zip; do unzip -d  "$z"|| true; done
 for z in ${WKDIR}*.gz; do gzip -d  "$z"|| true; done
 cd ~/git/DrQA/
