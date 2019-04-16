@@ -8,17 +8,17 @@ cd ~/git/DrQA/
 export CLASSPATH=~/git/DrQA/data/corenlp/*
 export WKDIR=~/git/DrQA/data/$1/
 
-#rm -rf ${WKDIR} || true
-#mkdir -p ${WKDIR}extract
+rm -rf ${WKDIR} || true
+mkdir -p ${WKDIR}extract
 
 echo "download db dump"
-#wget --timestamping --directory-prefix=${WKDIR} $2
+wget --timestamping --directory-prefix=${WKDIR} $2
 
 cd ${WKDIR}
 for z in ${WKDIR}*.tar.xz; do tar -xf "$z" || true; done
 for z in ${WKDIR}*.rar; do unrar e -r "$z" || true; done
 for z in ${WKDIR}*.7z; do 7z e "$z"|| true; done
-#for z in ${WKDIR}*.bz2; do bzip2 -d  "$z"|| true; done
+for z in ${WKDIR}*.bz2; do bzip2 -d  "$z"|| true; done
 for z in ${WKDIR}*.zip; do unzip -d  "$z"|| true; done
 for z in ${WKDIR}*.gz; do gzip -d  "$z"|| true; done
 cd ~/git/DrQA/
@@ -29,7 +29,8 @@ cd ~/git/DrQA/
 
 if [ "$1" != "wikiabstract" ]; then
     echo "wikiextractor"
-    python WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 15 --filter_disambig_pages  ${WKDIR}*.bz2
+    python WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 15 --filter_disambig_pages  ${WKDIR}*xml
+
 else
     echo "abstractor"
     python3 abstractor.py --input ${WKDIR}enwiki-latest-abstract.xml --output ${WKDIR}extract/
