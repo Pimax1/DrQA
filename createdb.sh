@@ -29,7 +29,7 @@ cd ~/git/DrQA/
 
 if [ "$1" != "wikiabstract" ]; then
     echo "wikiextractor"
-    #python WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 15 --filter_disambig_pages --processes 18 ${WKDIR}*xml*
+    python WikiExtractor.py --output ${WKDIR}extract/ --json --no-templates --min_text_length 15 --filter_disambig_pages  ${WKDIR}*.bz2
 else
     echo "abstractor"
     python3 abstractor.py --input ${WKDIR}enwiki-latest-abstract.xml --output ${WKDIR}extract/
