@@ -8,11 +8,11 @@ cd ~/git/DrQA/
 export CLASSPATH=~/git/DrQA/data/corenlp/*
 export WKDIR=~/git/DrQA/data/$1/
 
-rm -rf ${WKDIR} || true
+#rm -rf ${WKDIR} || true
 mkdir -p ${WKDIR}extract
 
 echo "download db dump"
-wget --timestamping --directory-prefix=${WKDIR} $2
+#wget --timestamping --directory-prefix=${WKDIR} $2
 
 cd ${WKDIR}
 for z in ${WKDIR}*.tar.xz; do tar -xf "$z" || true; done
