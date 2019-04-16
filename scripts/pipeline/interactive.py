@@ -96,23 +96,28 @@ def listenQuestions(wikiname, top_n=1, n_docs=5):
             time.sleep(1)
             continue
         question = json.loads(bucket.get_blob(question_file).download_as_string())["question"]
-        predictions = DrQA.process(
-            question, None, top_n, n_docs, return_context=True
-        )
-        span = []
-        span_score = []
-        doc_score = []
-        doc_id = []
-        text = []
-        for i, p in enumerate(predictions, 1):
-            span.append(p['span'])
-            doc_id.append(p['doc_id'])
-            span_score.append(p['span_score'])
-            doc_score.append(p['doc_score'])
-            text.append(p['context']['text'])
-        bucket.blob(prediction_file).upload_from_string(json.dumps({"span": span, "span_score": span_score,
-                                                                   "doc_score": doc_score, "doc_id": doc_id,
-                                                                    "text": text, "wikiname": wikiname}, ensure_ascii=False))
+        try :
+            predictions = DrQA.process(
+                question, None, top_n, n_docs, return_context=True
+            )
+            span = []
+            span_score = []
+            doc_score = []
+            doc_id = []
+            text = []
+            for i, p in enumerate(predictions, 1):
+                span.append(p['span'])
+                doc_id.append(p['doc_id'])
+                span_score.append(p['span_score'])
+                doc_score.append(p['doc_score'])
+                text.append(p['context']['text'])
+            bucket.blob(prediction_file).upload_from_string(json.dumps({"span": span, "span_score": span_score,
+                                                                       "doc_score": doc_score, "doc_id": doc_id,
+                                                                        "text": text, "wikiname": wikiname}, ensure_ascii=False))
+        except:
+            bucket.blob(prediction_file).upload_from_string(json.dumps({"span": [], "span_score": [],
+                                                                   "doc_score": [], "doc_id": [],
+                                                                    "text": [], "wikiname": wikiname}, ensure_ascii=False))
         bucket.blob(question_file).delete()
 
 
